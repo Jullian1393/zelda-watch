@@ -47,7 +47,7 @@ STORES = [
     ("Nintendo", URL, in_stock),
     ("Target", "https://www.target.com/p/-/A-1013322047",
      simple_check([r'"availability_status"\s*:\s*"IN_STOCK', r'<button(?![^>]*disabled)[^>]*>\s*Add to cart\s*<'],
-                  [r'"availability_status"\s*:\s*"OUT_OF_STOCK', r'>\s*Out of stock\s*<'])),
+                  [r'"availability_status"\s*:\s*"OUT_OF_STOCK', r'>\s*Out of stock\s*<', r'disabled[^>]*>\s*Add to cart'])),
     ("Best Buy", "https://www.bestbuy.com/product/switch-2-the-legend-of-zelda-40th-anniversary-edition/J7GSL57HTY",
      simple_check([r'data-button-state="ADD_TO_CART"', r'<button(?![^>]*disabled)[^>]*>\s*Add to Cart\s*<'],
                   [r'data-button-state="SOLD_OUT"', r'>\s*Sold Out\s*<', r'Coming Soon'])),
