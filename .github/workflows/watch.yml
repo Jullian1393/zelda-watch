@@ -1,0 +1,23 @@
+name: Zelda restock watch
+on:
+  schedule:
+    - cron: "0 */5 * * *"   # start a new 5h50m run every 5 hours (overlap covers delays)
+  workflow_dispatch:
+concurrency:
+  group: watch
+  cancel-in-progress: true
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test alert (manual runs only)
+        if: github.event_name == 'workflow_dispatch'
+        env: { NTFY_TOPIC: "${{ secrets.NTFY_TOPIC }}" }
+        run: python3 watch.py --test
+      - name: Watch stores
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          RUN_SECONDS: "21000"
+        run: python3 watch.py
